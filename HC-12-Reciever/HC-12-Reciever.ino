@@ -3,11 +3,13 @@
 
 
 
-SoftwareSerial HC12(2,3); // HC-12 TX-Pins, HC-12 RX Pins
+SoftwareSerial HC12(7,8); // HC-12 TX-Pins, HC-12 RX Pins
 
-int led1 = 6;
-int result;
-char stringMatch[12] = "Hello World";
+int led1 = 2;
+// Motor 1 Pins
+int ena = 3;
+int in1 = 5;
+int in2 = 6;
 
 void setup()
 {
@@ -26,21 +28,19 @@ void loop()
         {
             char c = HC12.read();
 
-            result = strcmp(c, stringMatch);
-
-            if(result == 0)
+            if(c == 0x31)
             {
               Serial.write(c);
+              Serial.write("\n");
+              digitalWrite(led1, HIGH);
+              delay(500);
+              digitalWrite(led1, LOW);
             }
             else
             {
-              Serial.write(result);
+              Serial.write(c);
+              Serial.write("Not it");
             }
         }
-
-        // Blink LED when data is received
-        digitalWrite(led1, HIGH);
-        delay(500);
-        digitalWrite(led1, LOW);
     }
 }

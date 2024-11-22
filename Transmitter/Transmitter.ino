@@ -10,7 +10,7 @@ void setup()
 
 void loop() 
 { 
-  HC12.println("Hello World");
+  HC12.println("1");
   delay(2000);
 
 }
