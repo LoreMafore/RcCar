@@ -16,6 +16,9 @@ void setup()
     Serial.begin(9600);
     HC12.begin(9600);
     pinMode(led1, OUTPUT);
+    pinMode(ena, OUTPUT);
+    pinMode(in1, OUTPUT);
+    pinMode(in2, OUTPUT);
 }
 
 void loop() 
@@ -35,6 +38,24 @@ void loop()
               digitalWrite(led1, HIGH);
               delay(500);
               digitalWrite(led1, LOW);
+              
+              // Clockwise Max Spd
+              digitalWrite(in1, HIGH);
+              digitalWrite(in2, LOW);
+              analogWrite(ena, 50);
+              delay(2000);
+            
+              // Stop
+              digitalWrite(in1, LOW);
+              digitalWrite(in2, LOW);
+              analogWrite(ena, 0);
+              delay(2000);
+            
+              // CounterClockwise Max Spd
+              digitalWrite(in1, LOW);
+              digitalWrite(in2, HIGH);
+              analogWrite(ena, 100);
+              delay(2000);
             }
             else
             {
