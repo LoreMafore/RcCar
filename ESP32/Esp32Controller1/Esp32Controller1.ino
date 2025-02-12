@@ -18,9 +18,11 @@ uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34};
 typedef struct message
 {
   char a[32];
+  char b[32];
   f32 x;
   f32 y;
-  f32 value;
+  f32 valueY;
+  f32 valueX;
 }message;
 
 message Data;
@@ -76,24 +78,42 @@ void loop()
   {
     Data.y = y;
     strcpy(Data.a, "Back.");
-    Data.x = x;
-    Data.value = 1;
+    Data.valueY = 1;
   }
 
   else if(y >= 1366 && y <= 2730)
   {
     Data.y = y;
     strcpy(Data.a, "Stop.");
-    Data.x = x;
-    Data.value = 0;
+    Data.valueY = 0;
   }
 
   else if(y >= 2731 and y <= 4096)
   {
     Data.y = y;
     strcpy(Data.a, "Forward.");
+    Data.valueY = 2;
+  }
+
+  if(x >= 0 && x <= 1365)
+  {
     Data.x = x;
-    Data.value = 2;
+    strcpy(Data.a, "Left.");
+    Data.valueX = 1;
+  }
+
+  else if(x >= 1366 && x <= 2730)
+  {
+    Data.x = x;
+    strcpy(Data.a, "Stop.");
+    Data.valueX = 0;
+  }
+
+  else if(x >= 2731 and x <= 4096)
+  {
+    Data.x = x;
+    strcpy(Data.a, "Right.");
+    Data.valueX = 2;
   }
 
   esp_err_t result = esp_now_send(carAddress, (u8 *) &Data, sizeof(Data));
@@ -102,21 +122,21 @@ void loop()
   {
     Serial.println("Sending Confirmed");
     Serial.println("Y: ");
-    Serial.print(y);
+    Serial.println(y);
     Serial.println("X: ");
-    Serial.print(x);
+    Serial.println(x);
   }
 
   else
   {
     Serial.println("Sending Error");
-     Serial.println("Y: ");
-    Serial.print(y);
+    Serial.println("Y: ");
+    Serial.println(y);
     Serial.println("X: ");
-    Serial.print(x);
+    Serial.println(x);
     
   }
-  delay(2000);
+  delay(1000);
 }
 
 

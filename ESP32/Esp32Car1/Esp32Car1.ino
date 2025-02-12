@@ -5,10 +5,15 @@
 #define f32 float
 
 //pins
-#define INT1 22
-#define INT2 23
-#define INT3 34
-#define INT4 35
+#define BINT1 25
+#define BINT2 26
+#define BINT3 12
+#define BINT4 13
+
+#define FINT1 19
+#define FINT2 18
+#define FINT3 17
+#define FINT4 16
 
 f32 x = 0.0f;
 f32 y = 0.0f;
@@ -18,9 +23,11 @@ uint8_t carAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34};
 typedef struct message
 {
   char a[32];
+  char b[32];
   f32 x;
   f32 y;
-  f32 value;
+  f32 valueY;
+  f32 valueX;
 
 }message;
 
@@ -38,7 +45,9 @@ void OnDataRecv(const esp_now_recv_info *info, const u8 *incomingData, int len)
   Serial.println("X: ");
   Serial.println(Data.x);
   Serial.println("Value: ");
-  Serial.println(Data.value);
+  Serial.println(Data.valueY);
+  Serial.println("Value: ");
+  Serial.println(Data.valueX);
 
 }
 
@@ -46,8 +55,15 @@ void setup()
 {
   Serial.begin(115200);
 
-  pinMode(INT1, OUTPUT);
-  pinMode(INT2, OUTPUT);
+  pinMode(BINT1, OUTPUT);
+  pinMode(BINT2, OUTPUT);
+  pinMode(BINT3, OUTPUT);
+  pinMode(BINT4, OUTPUT);
+
+  pinMode(FINT1, OUTPUT);
+  pinMode(FINT2, OUTPUT);
+  pinMode(FINT3, OUTPUT);
+  pinMode(FINT4, OUTPUT);
 
   WiFi.mode(WIFI_STA);
 
@@ -76,33 +92,59 @@ void setup()
 void loop()
 {
 
-  if(Data.value == 2)
+  if(Data.valueY == 2)
   {
-
-    digitalWrite(INT1, HIGH);
-    digitalWrite(INT2, LOW);
-    digitalWrite(INT3, HIGH);
-    digitalWrite(INT4, LOW);
-
+    analogWrite(BINT2, 0);
+    analogWrite(BINT1, 125);
+    analogWrite(BINT4, 0);
+    analogWrite(BINT3, 125);
 
   }
 
-  else if(Data.value == 0)
+  else if(Data.valueY == 0)
   {
-    digitalWrite(INT1, LOW);
-    digitalWrite(INT2, LOW);
-    digitalWrite(INT3, LOW;
-    digitalWrite(INT4, LOW);
+    analogWrite(BINT1, 0);
+    analogWrite(BINT2, 0);
+    analogWrite(BINT3, 0);
+    analogWrite(BINT4, 0);
 
   }
 
-  else if(Data.value == 1)
+  else if(Data.valueY == 1)
   {
 
-    digitalWrite(INT1, LOW);
-    digitalWrite(INT2, HIGH);
-    digitalWrite(INT3, LOW;
-    digitalWrite(INT4, HIGH);
+    analogWrite(BINT1, 0);
+    analogWrite(BINT2, 125);
+    analogWrite(BINT3, 0);
+    analogWrite(BINT4, 125);
+
+  }
+
+    if(Data.valueX == 2)
+  {
+    analogWrite(FINT2, 0);
+    analogWrite(FINT1, 125);
+    analogWrite(FINT4, 0);
+    analogWrite(FINT3, 125);
+
+  }
+
+  else if(Data.valueX == 0)
+  {
+    analogWrite(FINT1, 0);
+    analogWrite(FINT2, 0);
+    analogWrite(FINT3, 0);
+    analogWrite(FINT4, 0);
+
+  }
+
+  else if(Data.valueX == 1)
+  {
+
+    analogWrite(FINT1, 0);
+    analogWrite(FINT2, 125);
+    analogWrite(FINT3, 0);
+    analogWrite(FINT4, 125);
 
   }
 
