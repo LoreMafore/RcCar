@@ -15,6 +15,9 @@
 #define FINT3 17
 #define FINT4 16
 
+#define SINT1 32
+#define SINT2 33
+
 f32 x = 0.0f;
 f32 y = 0.0f;
 
@@ -28,6 +31,7 @@ typedef struct message
   f32 y;
   f32 valueY;
   f32 valueX;
+  int button;
 
 }message;
 
@@ -92,60 +96,157 @@ void setup()
 void loop()
 {
 
-  if(Data.valueY == 2)
+  if(Data.button == 0)
   {
-    analogWrite(BINT2, 0);
-    analogWrite(BINT1, 125);
-    analogWrite(BINT4, 0);
-    analogWrite(BINT3, 125);
+      if(Data.valueY == 2)
+      {
+        analogWrite(BINT2, 0);
+        analogWrite(BINT1, 125);
+        analogWrite(BINT4, 0);
+        analogWrite(BINT3, 225);
+      }
 
+      else if(Data.valueY == 0)
+      {
+        analogWrite(BINT1, 0);
+        analogWrite(BINT2, 0);
+        analogWrite(BINT3, 0);
+        analogWrite(BINT4, 0);
+
+      }
+
+      else if(Data.valueY == 1)
+      {
+
+        analogWrite(BINT1, 0);
+        analogWrite(BINT2, 125);
+        analogWrite(BINT3, 0);
+        analogWrite(BINT4, 125);
+
+      }
+
+       if(Data.valueX == 2)
+      {
+        analogWrite(SINT2, 0);
+        analogWrite(SINT1, 125);
+
+      }
+
+      else if(Data.valueX == 0)
+      {
+        analogWrite(SINT1, 0);
+        analogWrite(SINT2, 0);
+
+      }
+
+      else if(Data.valueX == 1)
+      {
+
+        analogWrite(SINT1, 0);
+        analogWrite(SINT2, 125);
+
+      }
   }
 
-  else if(Data.valueY == 0)
-  {
-    analogWrite(BINT1, 0);
-    analogWrite(BINT2, 0);
-    analogWrite(BINT3, 0);
-    analogWrite(BINT4, 0);
+   if(Data.button == 1)
+   {
+      if(Data.valueY == 2)
+      {
+        analogWrite(BINT2, 0);
+        analogWrite(BINT1, 125);
 
-  }
+        analogWrite(BINT4, 0);
+        analogWrite(BINT3, 125);
 
-  else if(Data.valueY == 1)
-  {
+        analogWrite(FINT2, 0);
+        analogWrite(FINT1, 130);
 
-    analogWrite(BINT1, 0);
-    analogWrite(BINT2, 125);
-    analogWrite(BINT3, 0);
-    analogWrite(BINT4, 125);
+        analogWrite(FINT4, 0);
+        analogWrite(FINT3, 130);
 
-  }
+      }
 
-    if(Data.valueX == 2)
-  {
-    analogWrite(FINT2, 0);
-    analogWrite(FINT1, 125);
-    analogWrite(FINT4, 0);
-    analogWrite(FINT3, 125);
+      else if(Data.valueY == 0)
+      {
+        analogWrite(BINT1, 0);
+        analogWrite(BINT2, 0);
 
-  }
+        analogWrite(BINT3, 0);
+        analogWrite(BINT4, 0);
 
-  else if(Data.valueX == 0)
-  {
-    analogWrite(FINT1, 0);
-    analogWrite(FINT2, 0);
-    analogWrite(FINT3, 0);
-    analogWrite(FINT4, 0);
+        analogWrite(FINT1, 0);
+        analogWrite(FINT2, 0);
 
-  }
+        analogWrite(FINT3, 0);
+        analogWrite(FINT4, 0);
 
-  else if(Data.valueX == 1)
-  {
+      }
 
-    analogWrite(FINT1, 0);
-    analogWrite(FINT2, 125);
-    analogWrite(FINT3, 0);
-    analogWrite(FINT4, 125);
+      else if(Data.valueY == 1)
+      {
 
-  }
+        analogWrite(BINT1, 0);
+        analogWrite(BINT2, 125);
+
+        analogWrite(BINT3, 0);
+        analogWrite(BINT4, 125);
+
+        analogWrite(FINT1, 0);
+        analogWrite(FINT2, 125);
+
+        analogWrite(FINT3, 0);
+        analogWrite(FINT4, 125);
+
+
+      }
+
+      if(Data.valueX == 2 && Data.valueY == 0)
+      {
+        analogWrite(BINT4, 0);
+        analogWrite(BINT3, 125);
+
+        analogWrite(FINT4, 0);
+        analogWrite(FINT3, 125);
+
+        analogWrite(BINT1, 0);
+        analogWrite(BINT2, 125);
+
+        analogWrite(FINT1, 0);
+        analogWrite(FINT2, 125);
+      }
+
+      else if(Data.valueX == 0)
+      {
+        analogWrite(BINT1, 0);
+        analogWrite(BINT2, 0);
+
+        analogWrite(BINT3, 0);
+        analogWrite(BINT4, 0);
+
+        analogWrite(FINT1, 0);
+        analogWrite(FINT2, 0);
+
+        analogWrite(FINT3, 0);
+        analogWrite(FINT4, 0);
+
+      }
+
+      else if(Data.valueX == 1)
+      {
+        analogWrite(BINT2, 0);
+        analogWrite(BINT1, 125);
+
+        analogWrite(FINT1, 0);
+        analogWrite(FINT2, 125);
+
+        analogWrite(BINT3, 0);
+        analogWrite(BINT4, 125);
+
+        analogWrite(FINT3, 0);
+        analogWrite(FINT4, 125);
+       
+
+      }
+   }
 
 }

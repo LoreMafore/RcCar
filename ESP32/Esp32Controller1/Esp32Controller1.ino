@@ -7,10 +7,14 @@
 //pins
 #define PINX 33
 #define PINY 32
+#define PINB 26
 
 f32 x = 0.0f;
 f32 y = 0.0f;
 f32 sendingValue = 0;
+int buttonStuff = 0;
+int buttonStatus = 0;
+
 
 //uint8_t controllerAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x36, 0x68};
 uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34};
@@ -23,6 +27,7 @@ typedef struct message
   f32 y;
   f32 valueY;
   f32 valueX;
+  int button;
 }message;
 
 message Data;
@@ -41,6 +46,7 @@ void setup()
 
   pinMode(PINX, INPUT); 
   pinMode(PINY, INPUT); 
+  pinMode(PINB, INPUT_PULLUP);
 
   Serial.begin(115200);
 
@@ -73,6 +79,27 @@ void loop()
 {
   y = analogRead(PINY);
   x = analogRead(PINX);
+  buttonStuff = digitalRead(PINB);
+
+  if(buttonStuff == 0)
+  {
+
+    if(buttonStatus == 0)
+    {
+      buttonStatus = 1;
+      Data.button = buttonStatus;
+    }
+
+    else if(buttonStatus == 1)
+    {
+      buttonStatus = 0;
+      Data.button = buttonStatus;
+    }
+
+  }
+  buttonStuff = digitalRead(PINB);
+
+  Serial.println(buttonStuff);
 
   if(y >= 0 && y <= 1365)
   {
@@ -125,6 +152,8 @@ void loop()
     Serial.println(y);
     Serial.println("X: ");
     Serial.println(x);
+    Serial.println("Button: ");
+    Serial.print(buttonStatus);
   }
 
   else
@@ -134,6 +163,8 @@ void loop()
     Serial.println(y);
     Serial.println("X: ");
     Serial.println(x);
+    Serial.println("Button: ");
+ 
     
   }
   delay(1000);
