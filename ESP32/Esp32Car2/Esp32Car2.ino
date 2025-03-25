@@ -13,18 +13,14 @@
 //Back wheels
 #define RINT3 12
 #define RINT4 13
+#define LINT1 26
+#define LINT2 25
 
-#define LINT1 19
-#define LINT2 18
-
-
-#define SINT1 32
-#define SINT2 33
 
 f32 x = 0.0f;
 f32 y = 0.0f;
 
-uint8_t carAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34};
+uint8_t carAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xAA, 0xD8};
 
 typedef struct message
 {
@@ -100,73 +96,19 @@ void setup()
 void loop()
 {
 
-  if(Data.button == 0)
-  {
       if(Data.valueY == 2)
       {
-        analogWrite(RINT2, 0);
-        analogWrite(RINT1, 125);
-        analogWrite(RINT4, 0);
-        analogWrite(RINT3, 225);
-      }
-
-      else if(Data.valueY == 0)
-      {
         analogWrite(RINT1, 0);
-        analogWrite(RINT2, 0);
-        analogWrite(RINT3, 0);
-        analogWrite(RINT4, 0);
-
-      }
-
-      else if(Data.valueY == 1)
-      {
-
-        analogWrite(RINT1, 0);
-        analogWrite(RINT2, 125);
-        analogWrite(RINT3, 0);
-        analogWrite(RINT4, 125);
-
-      }
-
-       if(Data.valueX == 2)
-      {
-        analogWrite(SINT2, 0);
-        analogWrite(SINT1, 125);
-
-      }
-
-      else if(Data.valueX == 0)
-      {
-        analogWrite(SINT1, 0);
-        analogWrite(SINT2, 0);
-
-      }
-
-      else if(Data.valueX == 1)
-      {
-
-        analogWrite(SINT1, 0);
-        analogWrite(SINT2, 125);
-
-      }
-  }
-
-   if(Data.button == 1)
-   {
-      if(Data.valueY == 2)
-      {
-        analogWrite(RINT2, 0);
-        analogWrite(RINT1, 125);
+        analogWrite(RINT2, 255);
 
         analogWrite(RINT4, 0);
-        analogWrite(RINT3, 125);
+        analogWrite(RINT3, 255);
 
-        analogWrite(LINT2, 0);
-        analogWrite(LINT1, 130);
+        analogWrite(LINT1, 0);
+        analogWrite(LINT2, 255);
 
         analogWrite(LINT4, 0);
-        analogWrite(LINT3, 130);
+        analogWrite(LINT3, 255);
 
       }
 
@@ -190,36 +132,36 @@ void loop()
       {
 
         analogWrite(RINT1, 0);
-        analogWrite(RINT2, 125);
+        analogWrite(RINT2, 255);
 
         analogWrite(RINT3, 0);
-        analogWrite(RINT4, 125);
+        analogWrite(RINT4, 255);
 
         analogWrite(LINT1, 0);
-        analogWrite(LINT2, 125);
+        analogWrite(LINT2, 255);
 
         analogWrite(LINT3, 0);
-        analogWrite(LINT4, 125);
+        analogWrite(LINT4, 255);
 
 
       }
 
       if(Data.valueX == 2 && Data.valueY == 0)
       {
-        analogWrite(RINT4, 0);
-        analogWrite(RINT3, 125);
+        analogWrite(LINT2, 0);
+        analogWrite(LINT1, 255);
 
         analogWrite(LINT4, 0);
-        analogWrite(LINT3, 125);
+        analogWrite(LINT3, 255);
 
         analogWrite(RINT1, 0);
-        analogWrite(RINT2, 125);
+        analogWrite(RINT2, 255);
 
-        analogWrite(LINT1, 0);
-        analogWrite(LINT2, 125);
+        analogWrite(RINT4, 0);
+        analogWrite(RINT3, 255);
       }
 
-      else if(Data.valueX == 0)
+      else if(Data.valueX == 0 && Data.valueY == 0)
       {
         analogWrite(RINT1, 0);
         analogWrite(RINT2, 0);
@@ -235,22 +177,19 @@ void loop()
 
       }
 
-      else if(Data.valueX == 1)
+      else if(Data.valueX == 1 && Data.valueY == 0)
       {
-        analogWrite(RINT2, 0);
-        analogWrite(RINT1, 125);
-
         analogWrite(LINT1, 0);
-        analogWrite(LINT2, 125);
-
-        analogWrite(RINT3, 0);
-        analogWrite(RINT4, 125);
+        analogWrite(LINT2, 255);
 
         analogWrite(LINT3, 0);
-        analogWrite(LINT4, 125);
-       
+        analogWrite(LINT4, 255);
 
+        analogWrite(RINT2, 0);
+        analogWrite(RINT1, 255);
+
+        analogWrite(RINT3, 0);
+        analogWrite(RINT4, 255);
       }
-   }
 
 }
