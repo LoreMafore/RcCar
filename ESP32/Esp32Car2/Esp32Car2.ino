@@ -20,7 +20,9 @@
 f32 x = 0.0f;
 f32 y = 0.0f;
 
-uint8_t carAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xAA, 0xD8};
+uint8_t carAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34}; //2
+//uint8_t controllerAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xAA, 0xD8}; //3
+//uint8_t carAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x33, 0x40}; //944331
 
 typedef struct message
 {
@@ -40,17 +42,20 @@ void OnDataRecv(const esp_now_recv_info *info, const u8 *incomingData, int len)
 {
   memcpy(&Data, incomingData, sizeof(Data));
   Serial.println("Data recieved: ");
+  Serial.print("Length: ");
   Serial.println(len);
-  Serial.println("Character Value: ");
+  Serial.print("Character Value: ");
   Serial.println(Data.a);
-  Serial.println("Y: ");
+  Serial.print("Y: ");
   Serial.println(Data.y);
-  Serial.println("X: ");
+  Serial.print("X: ");
   Serial.println(Data.x);
-  Serial.println("Value: ");
+  Serial.print("ValueY: ");
   Serial.println(Data.valueY);
-  Serial.println("Value: ");
+  Serial.print("ValueX: ");
   Serial.println(Data.valueX);
+  Serial.print("Button");
+  Serial.println(Data.button);
 
 }
 
@@ -68,6 +73,15 @@ void setup()
   pinMode(LINT2, OUTPUT);
   pinMode(LINT3, OUTPUT);
   pinMode(LINT4, OUTPUT);
+
+  analogWrite(RINT1, 0);
+  analogWrite(RINT2, 0);
+  analogWrite(RINT3, 0);
+  analogWrite(RINT4, 0);
+  analogWrite(LINT1, 0);
+  analogWrite(LINT2, 0);
+  analogWrite(LINT3, 0);
+  analogWrite(LINT4, 0);
 
   WiFi.mode(WIFI_STA);
 
@@ -91,12 +105,38 @@ void setup()
     return;
   }
 
+  WiFi.begin();
+
 }
 
 void loop()
 {
 
-      if(Data.valueY == 2)
+
+  // if(esp_now_init() == ESP_OK)
+  // {
+  //   Serial.println("Sending Confirmed");
+  //   Serial.println("Y: ");
+  //   Serial.println(y);
+  //   Serial.println("X: ");
+  //   Serial.println(x);
+  //   Serial.println("Button: ");
+  //   Serial.print(button);
+  // }
+
+  // else
+  // {
+  //   Serial.println("Sending Error");
+  //   Serial.println("Y: ");
+  //   Serial.println(y);
+  //   Serial.println("X: ");
+  //   Serial.println(x);
+  //   Serial.println("Button: ");
+ 
+    
+  // }
+
+      if(Data.valueY == 2 && Data.valueX ==0)
       {
         analogWrite(RINT1, 0);
         analogWrite(RINT2, 255);
@@ -112,7 +152,7 @@ void loop()
 
       }
 
-      else if(Data.valueY == 0)
+      else if(Data.valueY == 0 && Data.valueX ==0)
       {
         analogWrite(RINT1, 0);
         analogWrite(RINT2, 0);
@@ -128,17 +168,17 @@ void loop()
 
       }
 
-      else if(Data.valueY == 1)
+      else if(Data.valueY == 1 && Data.valueX ==0)
       {
 
-        analogWrite(RINT1, 0);
-        analogWrite(RINT2, 255);
+        analogWrite(RINT2, 0);
+        analogWrite(RINT1, 255);
 
         analogWrite(RINT3, 0);
         analogWrite(RINT4, 255);
 
-        analogWrite(LINT1, 0);
-        analogWrite(LINT2, 255);
+        analogWrite(LINT2, 0);
+        analogWrite(LINT1, 255);
 
         analogWrite(LINT3, 0);
         analogWrite(LINT4, 255);
@@ -146,10 +186,10 @@ void loop()
 
       }
 
-      if(Data.valueX == 2 && Data.valueY == 0)
+      if(Data.valueY == 0 && Data.valueX == 2)
       {
-        analogWrite(LINT2, 0);
-        analogWrite(LINT1, 255);
+        analogWrite(LINT1, 0);
+        analogWrite(LINT2, 255);
 
         analogWrite(LINT4, 0);
         analogWrite(LINT3, 255);
@@ -161,26 +201,10 @@ void loop()
         analogWrite(RINT3, 255);
       }
 
-      else if(Data.valueX == 0 && Data.valueY == 0)
+      else if(Data.valueY == 0 && Data.valueX == 1)
       {
-        analogWrite(RINT1, 0);
-        analogWrite(RINT2, 0);
-
-        analogWrite(RINT3, 0);
-        analogWrite(RINT4, 0);
-
-        analogWrite(LINT1, 0);
         analogWrite(LINT2, 0);
-
-        analogWrite(LINT3, 0);
-        analogWrite(LINT4, 0);
-
-      }
-
-      else if(Data.valueX == 1 && Data.valueY == 0)
-      {
-        analogWrite(LINT1, 0);
-        analogWrite(LINT2, 255);
+        analogWrite(LINT1, 255);
 
         analogWrite(LINT3, 0);
         analogWrite(LINT4, 255);
@@ -191,5 +215,7 @@ void loop()
         analogWrite(RINT3, 0);
         analogWrite(RINT4, 255);
       }
+
+      delay(10);
 
 }

@@ -17,8 +17,11 @@ int buttonStatus = 0;
 
 
 //uint8_t controllerAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x36, 0x68};
-//uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34}; //2
-uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xAA, 0xD8}; //3
+uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34}; //2
+// uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xAA, 0xD8}; //3
+//uint8_t carAddress[] =        {0x88, 0x13, 0xBF, 0xC8, 0x36, 0x68}; //1
+//uint8_t carAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x33, 0x40}; //944331
+
 
 typedef struct message
 {
@@ -45,11 +48,19 @@ void OnDataSent(const u8 *mac_addr, esp_now_send_status_t status)
 void setup()
 {
 
+  memset(&Data, 0, sizeof(Data));
+  Data.valueX = 0;
+  Data.valueY = 0;
+  Data.button = 0;
+  strcpy(Data.a, "Stop.");
+  strcpy(Data.b, "");
+
   pinMode(PINX, INPUT); 
   pinMode(PINY, INPUT); 
   pinMode(PINB, INPUT_PULLUP);
 
   Serial.begin(115200);
+  while (!Serial); 
 
   WiFi.mode(WIFI_STA);
 
@@ -88,17 +99,21 @@ void loop()
     if(buttonStatus == 0)
     {
       buttonStatus = 1;
-      Data.button = buttonStatus;
     }
 
     else if(buttonStatus == 1)
     {
       buttonStatus = 0;
-      Data.button = buttonStatus;
     }
+    Data.button = buttonStatus;
 
   }
   buttonStuff = digitalRead(PINB);
+
+// Wait for button release to prevent multiple toggles
+    // while(digitalRead(PINB) == 0) {
+    //   delay(10);
+    // }
 
   Serial.println(buttonStuff);
 
@@ -165,9 +180,8 @@ void loop()
     Serial.println("X: ");
     Serial.println(x);
     Serial.println("Button: ");
- 
-    
   }
+
   delay(1000);
 }
 
