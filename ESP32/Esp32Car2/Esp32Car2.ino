@@ -144,11 +144,11 @@ void loop()
         analogWrite(RINT4, 0);
         analogWrite(RINT3, 255);
 
-        analogWrite(LINT1, 0);
-        analogWrite(LINT2, 255);
+        analogWrite(LINT2, 0);
+        analogWrite(LINT1, 255);
 
-        analogWrite(LINT4, 0);
-        analogWrite(LINT3, 255);
+        analogWrite(LINT3, 0);
+        analogWrite(LINT4, 255);
 
       }
 
@@ -177,11 +177,11 @@ void loop()
         analogWrite(RINT3, 0);
         analogWrite(RINT4, 255);
 
-        analogWrite(LINT2, 0);
-        analogWrite(LINT1, 255);
+        analogWrite(LINT1, 0);
+        analogWrite(LINT2, 255);
 
-        analogWrite(LINT3, 0);
-        analogWrite(LINT4, 255);
+        analogWrite(LINT4, 0);
+        analogWrite(LINT3, 255);
 
 
       }
@@ -189,31 +189,31 @@ void loop()
       if(Data.valueY == 0 && Data.valueX == 2)
       {
         analogWrite(LINT1, 0);
-        analogWrite(LINT2, 255);
+        analogWrite(LINT2, 125);
 
         analogWrite(LINT4, 0);
-        analogWrite(LINT3, 255);
+        analogWrite(LINT3, 125);
 
         analogWrite(RINT1, 0);
-        analogWrite(RINT2, 255);
+        analogWrite(RINT2, 125);
 
         analogWrite(RINT4, 0);
-        analogWrite(RINT3, 255);
+        analogWrite(RINT3, 125);
       }
 
       else if(Data.valueY == 0 && Data.valueX == 1)
       {
         analogWrite(LINT2, 0);
-        analogWrite(LINT1, 255);
+        analogWrite(LINT1, 125);
 
         analogWrite(LINT3, 0);
-        analogWrite(LINT4, 255);
+        analogWrite(LINT4, 125);
 
         analogWrite(RINT2, 0);
-        analogWrite(RINT1, 255);
+        analogWrite(RINT1, 125);
 
         analogWrite(RINT3, 0);
-        analogWrite(RINT4, 255);
+        analogWrite(RINT4, 125);
       }
 
       delay(10);
