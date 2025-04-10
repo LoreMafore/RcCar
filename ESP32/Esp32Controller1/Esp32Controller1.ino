@@ -8,19 +8,22 @@
 #define PINX 33
 #define PINY 32
 #define PINB 26
+#define PINSY 34
+#define PINSX 13
 
 f32 x = 0.0f;
 f32 y = 0.0f;
+
 f32 sendingValue = 0;
 int buttonStuff = 0;
 int buttonStatus = 0;
 
 
 //uint8_t controllerAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x36, 0x68};
-uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34}; //2
+//uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34}; //2
 // uint8_t carAddress[] =        {0xCC, 0xDB, 0xA7, 0x9A, 0xAA, 0xD8}; //3
 //uint8_t carAddress[] =        {0x88, 0x13, 0xBF, 0xC8, 0x36, 0x68}; //1
-//uint8_t carAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x33, 0x40}; //944331
+uint8_t carAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x33, 0x40}; //944331
 
 
 typedef struct message
@@ -31,7 +34,8 @@ typedef struct message
   f32 y;
   f32 valueY;
   f32 valueX;
-  int button;
+  bool switchY;
+  bool switchX;
 }message;
 
 message Data;
@@ -51,13 +55,14 @@ void setup()
   memset(&Data, 0, sizeof(Data));
   Data.valueX = 0;
   Data.valueY = 0;
-  Data.button = 0;
   strcpy(Data.a, "Stop.");
   strcpy(Data.b, "");
 
   pinMode(PINX, INPUT); 
   pinMode(PINY, INPUT); 
   pinMode(PINB, INPUT_PULLUP);
+  pinMode(PINSY, INPUT);
+  pinMode(PINSX, INPUT);
 
   Serial.begin(115200);
   while (!Serial); 
@@ -91,31 +96,28 @@ void loop()
 {
   y = analogRead(PINY);
   x = analogRead(PINX);
-  buttonStuff = digitalRead(PINB);
 
-  if(buttonStuff == 0)
+  if(digitalRead(PINSY) == HIGH)
   {
-
-    if(buttonStatus == 0)
-    {
-      buttonStatus = 1;
-    }
-
-    else if(buttonStatus == 1)
-    {
-      buttonStatus = 0;
-    }
-    Data.button = buttonStatus;
-
+    Data.switchY = true;
+    //maybe left we will see
   }
-  buttonStuff = digitalRead(PINB);
 
-// Wait for button release to prevent multiple toggles
-    // while(digitalRead(PINB) == 0) {
-    //   delay(10);
-    // }
+  else
+  {
+    Data.switchY = false;
+  }
 
-  Serial.println(buttonStuff);
+  if(digitalRead(PINSX) == HIGH)
+  {
+    Data.switchX = true;
+    //maybe left we will see
+  }
+
+  else
+  {
+    Data.switchX = false;
+  }
 
   if(y >= 0 && y <= 1365)
   {
@@ -168,6 +170,11 @@ void loop()
     Serial.println(y);
     Serial.println("X: ");
     Serial.println(x);
+
+    Serial.println("SwitchY: ");
+    Serial.println(Data.switchY);
+    Serial.println("SwitchX: ");
+    Serial.println(Data.switchX);
     Serial.println("Button: ");
     Serial.print(buttonStatus);
   }

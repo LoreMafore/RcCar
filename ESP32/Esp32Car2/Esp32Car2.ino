@@ -20,9 +20,13 @@
 f32 x = 0.0f;
 f32 y = 0.0f;
 
-uint8_t carAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34}; //2
+u8 y_speed = 255;
+u8 x_speed = 125;
+
+
+//uint8_t carAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xD8, 0x34}; //2
 //uint8_t controllerAddress[] = {0xCC, 0xDB, 0xA7, 0x9A, 0xAA, 0xD8}; //3
-//uint8_t carAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x33, 0x40}; //944331
+uint8_t carAddress[] = {0x88, 0x13, 0xBF, 0xC8, 0x33, 0x40}; //944331
 
 typedef struct message
 {
@@ -32,8 +36,8 @@ typedef struct message
   f32 y;
   f32 valueY;
   f32 valueX;
-  int button;
-
+  bool switchY;
+  bool switchX;
 }message;
 
 message Data;
@@ -54,8 +58,6 @@ void OnDataRecv(const esp_now_recv_info *info, const u8 *incomingData, int len)
   Serial.println(Data.valueY);
   Serial.print("ValueX: ");
   Serial.println(Data.valueX);
-  Serial.print("Button");
-  Serial.println(Data.button);
 
 }
 
@@ -135,20 +137,37 @@ void loop()
  
     
   // }
+      if(Data.switchY == true)
+      {
+        y_speed = 255;
+      }
+      else
+      {
+        y_speed = 125;
+      }
+
+      if(Data.switchX == true)
+      {
+        x_speed = 125;
+      }
+      else
+      {
+        x_speed = 60;
+      }
 
       if(Data.valueY == 2 && Data.valueX ==0)
       {
         analogWrite(RINT1, 0);
-        analogWrite(RINT2, 255);
+        analogWrite(RINT2, y_speed);
 
         analogWrite(RINT4, 0);
-        analogWrite(RINT3, 255);
+        analogWrite(RINT3, y_speed);
 
         analogWrite(LINT2, 0);
-        analogWrite(LINT1, 255);
+        analogWrite(LINT1, y_speed);
 
         analogWrite(LINT3, 0);
-        analogWrite(LINT4, 255);
+        analogWrite(LINT4, y_speed);
 
       }
 
@@ -172,16 +191,16 @@ void loop()
       {
 
         analogWrite(RINT2, 0);
-        analogWrite(RINT1, 255);
+        analogWrite(RINT1, y_speed);
 
         analogWrite(RINT3, 0);
-        analogWrite(RINT4, 255);
+        analogWrite(RINT4, y_speed);
 
         analogWrite(LINT1, 0);
-        analogWrite(LINT2, 255);
+        analogWrite(LINT2, y_speed);
 
         analogWrite(LINT4, 0);
-        analogWrite(LINT3, 255);
+        analogWrite(LINT3, y_speed);
 
 
       }
@@ -189,31 +208,31 @@ void loop()
       if(Data.valueY == 0 && Data.valueX == 2)
       {
         analogWrite(LINT1, 0);
-        analogWrite(LINT2, 125);
+        analogWrite(LINT2, x_speed);
 
         analogWrite(LINT4, 0);
-        analogWrite(LINT3, 125);
+        analogWrite(LINT3, x_speed);
 
         analogWrite(RINT1, 0);
-        analogWrite(RINT2, 125);
+        analogWrite(RINT2, x_speed);
 
         analogWrite(RINT4, 0);
-        analogWrite(RINT3, 125);
+        analogWrite(RINT3, x_speed);
       }
 
       else if(Data.valueY == 0 && Data.valueX == 1)
       {
         analogWrite(LINT2, 0);
-        analogWrite(LINT1, 125);
+        analogWrite(LINT1, x_speed);
 
         analogWrite(LINT3, 0);
-        analogWrite(LINT4, 125);
+        analogWrite(LINT4, x_speed);
 
         analogWrite(RINT2, 0);
-        analogWrite(RINT1, 125);
+        analogWrite(RINT1, x_speed);
 
         analogWrite(RINT3, 0);
-        analogWrite(RINT4, 125);
+        analogWrite(RINT4, x_speed);
       }
 
       delay(10);
